@@ -2,6 +2,7 @@ package com.jay.kakaoimages.di
 
 import android.content.Context
 import com.jay.kakaoimages.KakaoImagesApplication
+import com.jay.kakaoimages.ui.MainModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
@@ -13,6 +14,7 @@ import javax.inject.Singleton
     modules = [
         AndroidSupportInjectionModule::class,
         ApplicationModule::class,
+        MainModule::class,
     ]
 )
 interface ApplicationComponent : AndroidInjector<KakaoImagesApplication> {
