@@ -30,7 +30,7 @@ class MainActivity : DaggerAppCompatActivity() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ documents ->
                 documents.forEach {
-                    Log.e("TAG", "imageUrl : ${it.image_url}")
+                    Log.e("TAG", "imageUrl : ${it.imageUrl}")
                 }
             }, { error ->
                 Log.e("TAG", "error: $error")
