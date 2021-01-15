@@ -1,44 +1,34 @@
 package com.jay.kakaoimages.ui
 
 import android.os.Bundle
-import android.util.Log
 import com.jay.kakaoimages.R
-import com.jay.kakaoimages.api.KakaoService
-import dagger.android.support.DaggerAppCompatActivity
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.addTo
-import io.reactivex.schedulers.Schedulers
-import javax.inject.Inject
+import com.jay.kakaoimages.base.BaseActivity
+import com.jay.kakaoimages.databinding.ActivityMainBinding
 
-class MainActivity : DaggerAppCompatActivity() {
+class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
+    R.layout.activity_main,
+    MainViewModel::class.java,
+) {
 
-    @Inject
-    lateinit var kakaoService: KakaoService
-
-    private val disposable = CompositeDisposable()
+    private val documentAdapter by lazy {
+        DocumentAdapter()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
-        kakaoService.getImages("test", 1, 30)
-            .subscribeOn(Schedulers.io())
-            .map { response ->
-                response.documents
-            }
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ documents ->
-                documents.forEach {
-                    Log.e("TAG", "imageUrl : ${it.imageUrl}")
-                }
-            }, { error ->
-                Log.e("TAG", "error: $error")
-            }).addTo(disposable)
+        setupUi()
+        setupObserve()
     }
 
-    override fun onDestroy() {
-        disposable.clear()
-        super.onDestroy()
+    private fun setupUi() {
+        binding.rvItemList.adapter = documentAdapter
     }
+
+    private fun setupObserve() {
+        viewModel.documentItems.observe(this) {
+            documentAdapter.setDocuments(it)
+        }
+    }
+
 }
