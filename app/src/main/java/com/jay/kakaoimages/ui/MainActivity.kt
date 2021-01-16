@@ -4,6 +4,7 @@ import android.os.Bundle
 import com.jay.kakaoimages.R
 import com.jay.kakaoimages.base.BaseActivity
 import com.jay.kakaoimages.databinding.ActivityMainBinding
+import com.jay.kakaoimages.ext.debounce
 
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
     R.layout.activity_main,
@@ -28,6 +29,10 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
     private fun setupObserve() {
         viewModel.documentItems.observe(this) {
             documentAdapter.setDocuments(it)
+        }
+
+        viewModel.query.debounce(1000L).observe(this) {
+            viewModel.load()
         }
     }
 

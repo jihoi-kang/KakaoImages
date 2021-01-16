@@ -23,8 +23,12 @@ class MainViewModel @Inject constructor(
 
     fun load() {
         val query = query.value ?: return
-        page = 1
+        if (query.isEmpty()) {
+            _documentItems.value = mutableListOf()
+            return
+        }
 
+        page = 1
         showLoading()
         kakaoService.getImages(query, page)
             .subscribeOn(Schedulers.io())
