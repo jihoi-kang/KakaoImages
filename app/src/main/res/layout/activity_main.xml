@@ -17,35 +17,68 @@
         android:layout_height="match_parent"
         tools:context=".ui.MainActivity">
 
-        <LinearLayout
-            android:id="@+id/ll_search"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/tb_toolbar"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:orientation="horizontal"
+            android:layout_height="?attr/actionBarSize"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <EditText
-                android:id="@+id/et_search"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:id="@+id/ll_search"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:imeOptions="actionDone"
-                android:inputType="text"
-                android:text="@={vm.query}" />
-
-            <ImageView
-                android:id="@+id/iv_search"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="@{() -> vm.search()}"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_grey_200_radius_8"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
                 android:padding="8dp"
-                android:src="@drawable/ic_baseline_search_24" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tb_toolbar">
 
-        </LinearLayout>
+                <ImageView
+                    android:id="@+id/iv_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> vm.search()}"
+                    android:src="@drawable/ic_baseline_search_24" />
+
+                <EditText
+                    android:id="@+id/et_search"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:hint="@string/msg_enter_text_message"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:text="@={vm.query}"
+                    android:textCursorDrawable="@drawable/cursor_style" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:onClick="@{() -> etSearch.setText(``)}"
+                    android:src="@drawable/ic_baseline_cancel_24"
+                    bind:visible="@{etSearch.text.toString().length() > 0}" />
+
+            </LinearLayout>
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/grey_500"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tb_toolbar" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_item_list"
@@ -55,7 +88,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ll_search"
+            app:layout_constraintTop_toBottomOf="@+id/line"
             app:spanCount="3"
             tools:listitem="@layout/item_document" />
 
