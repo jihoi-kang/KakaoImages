@@ -10,7 +10,7 @@ interface KakaoService {
     fun getImages(
         @Query("query") query: String,
         @Query("page") page: Int,
-        @Query("size") size: Int,
+        @Query("size") size: Int = 30,
     ): Single<GetImagesResponse>
 
 }

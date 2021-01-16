@@ -1,6 +1,5 @@
 package com.jay.kakaoimages.ui
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.jay.kakaoimages.api.KakaoService
@@ -17,23 +16,48 @@ class MainViewModel @Inject constructor(
 
     var query = MutableLiveData<String>()
 
-    private val _documentItems = MutableLiveData<List<Document>>()
-    val documentItems: LiveData<List<Document>> get() = _documentItems
+    private val _documentItems = MutableLiveData<MutableList<Document>>(mutableListOf())
+    val documentItems: LiveData<MutableList<Document>> get() = _documentItems
 
-    fun search() {
+    private var page = 1
+
+    fun load() {
         val query = query.value ?: return
+        page = 1
 
         showLoading()
-        kakaoService.getImages(query, 1, 30)
+        kakaoService.getImages(query, page)
             .subscribeOn(Schedulers.io())
             .map { response -> response.documents }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ documents ->
+                page++
                 hideLoading()
-                _documentItems.value = documents
-            }, { error ->
+
+                val list = mutableListOf<Document>()
+                list.addAll(documents)
+                _documentItems.value = list
+            }, {
                 hideLoading()
-                Log.e("TAG", "error: $error")
+            }).addTo(disposable)
+    }
+
+    fun loadMore() {
+        val query = query.value ?: return
+
+        showLoading()
+        kakaoService.getImages(query, page)
+            .subscribeOn(Schedulers.io())
+            .map { response -> response.documents }
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ documents ->
+                page++
+                hideLoading()
+                _documentItems.value = _documentItems.value?.apply {
+                    addAll(documents)
+                }
+            }, {
+                hideLoading()
             }).addTo(disposable)
     }
 

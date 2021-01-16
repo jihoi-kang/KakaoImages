@@ -43,7 +43,7 @@
                     android:id="@+id/iv_search"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="@{() -> vm.search()}"
+                    android:onClick="@{() -> vm.load()}"
                     android:src="@drawable/ic_baseline_search_24" />
 
                 <EditText
@@ -90,16 +90,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/line"
             app:spanCount="3"
+            bind:onLoad="@{() -> vm.loadMore()}"
+            bind:threshold="@{3}"
             tools:listitem="@layout/item_document" />
 
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:indeterminateTint="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:indeterminateTint="@color/black"
             bind:visible="@{vm.loading}" />
 
         <TextView
