@@ -2,8 +2,8 @@ package com.jay.kakaoimages.di
 
 import android.content.Context
 import com.jay.kakaoimages.KakaoImagesApplication
-import com.jay.kakaoimages.ui.main.MainModule
 import com.jay.kakaoimages.ui.detail.DocumentDetailModule
+import com.jay.kakaoimages.ui.main.MainModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
