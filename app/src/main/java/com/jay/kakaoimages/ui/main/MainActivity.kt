@@ -1,7 +1,9 @@
 package com.jay.kakaoimages.ui.main
 
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import com.jay.kakaoimages.R
+import com.jay.kakaoimages.api.UNKNOWN_ERROR
 import com.jay.kakaoimages.base.BaseActivity
 import com.jay.kakaoimages.databinding.ActivityMainBinding
 import com.jay.kakaoimages.ext.debounce
@@ -39,6 +41,22 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
         viewModel.openDetailEvent.observe(this) {
             startActivity(DocumentDetailActivity.getIntent(this, it))
         }
+
+        viewModel.errorPopupEvent.observe(this) { message ->
+            showPopup(
+                if (message == UNKNOWN_ERROR) getString(R.string.msg_unknown_error)
+                else message
+            )
+        }
+    }
+
+    private fun showPopup(message: String) {
+        AlertDialog.Builder(this)
+            .setMessage(message)
+            .setPositiveButton(getString(R.string.text_okay)) { dialog, _ ->
+                dialog.dismiss()
+            }.show()
+
     }
 
 }

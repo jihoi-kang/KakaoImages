@@ -2,6 +2,7 @@ package com.jay.kakaoimages.ui.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.jay.kakaoimages.api.asErrorResponse
 import com.jay.kakaoimages.base.BaseViewModel
 import com.jay.kakaoimages.data.KakaoImageRepository
 import com.jay.kakaoimages.model.Document
@@ -20,6 +21,9 @@ class MainViewModel @Inject constructor(
 
     private val _openDetailEvent = MutableLiveData<Document>()
     val openDetailEvent: LiveData<Document> get() = _openDetailEvent
+
+    private val _errorPopupEvent = MutableLiveData<String>()
+    val errorPopupEvent: LiveData<String> get() = _errorPopupEvent
 
     private var page = 1
 
@@ -41,8 +45,9 @@ class MainViewModel @Inject constructor(
                 val list = mutableListOf<Document>()
                 list.addAll(documents)
                 _documentItems.value = list
-            }, {
+            }, { error ->
                 hideLoading()
+                _errorPopupEvent.value = error.asErrorResponse().message
             }).addTo(disposable)
     }
 
@@ -58,8 +63,9 @@ class MainViewModel @Inject constructor(
                 _documentItems.value = _documentItems.value?.apply {
                     addAll(documents)
                 }
-            }, {
+            }, { error ->
                 hideLoading()
+                _errorPopupEvent.value = error.asErrorResponse().message
             }).addTo(disposable)
     }
 
