@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.jay.kakaoimages.api.asErrorResponse
 import com.jay.kakaoimages.base.BaseViewModel
+import com.jay.kakaoimages.common.Event
 import com.jay.kakaoimages.data.KakaoImageRepository
 import com.jay.kakaoimages.model.Document
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -19,11 +20,11 @@ class MainViewModel @Inject constructor(
     private val _documentItems = MutableLiveData<MutableList<Document>>(mutableListOf())
     val documentItems: LiveData<MutableList<Document>> get() = _documentItems
 
-    private val _openDetailEvent = MutableLiveData<Document>()
-    val openDetailEvent: LiveData<Document> get() = _openDetailEvent
+    private val _openDetailEvent = MutableLiveData<Event<Document>>()
+    val openDetailEvent: LiveData<Event<Document>> get() = _openDetailEvent
 
-    private val _errorPopupEvent = MutableLiveData<String>()
-    val errorPopupEvent: LiveData<String> get() = _errorPopupEvent
+    private val _errorPopupEvent = MutableLiveData<Event<String>>()
+    val errorPopupEvent: LiveData<Event<String>> get() = _errorPopupEvent
 
     private var page = 1
 
@@ -47,7 +48,7 @@ class MainViewModel @Inject constructor(
                 _documentItems.value = list
             }, { error ->
                 hideLoading()
-                _errorPopupEvent.value = error.asErrorResponse().message
+                _errorPopupEvent.value = Event(error.asErrorResponse().message)
             }).addTo(disposable)
     }
 
@@ -65,12 +66,12 @@ class MainViewModel @Inject constructor(
                 }
             }, { error ->
                 hideLoading()
-                _errorPopupEvent.value = error.asErrorResponse().message
+                _errorPopupEvent.value = Event(error.asErrorResponse().message)
             }).addTo(disposable)
     }
 
     fun openDocumentDetail(document: Document) {
-        _openDetailEvent.value = document
+        _openDetailEvent.value = Event(document)
     }
 
 }

@@ -8,6 +8,7 @@ import com.jay.kakaoimages.base.BaseActivity
 import com.jay.kakaoimages.databinding.ActivityMainBinding
 import com.jay.kakaoimages.ext.debounce
 import com.jay.kakaoimages.ui.detail.DocumentDetailActivity
+import com.jay.kakaoimages.util.eventObserve
 
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
     R.layout.activity_main,
@@ -38,11 +39,11 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
             viewModel.load()
         }
 
-        viewModel.openDetailEvent.observe(this) {
+        viewModel.openDetailEvent.eventObserve(this) {
             startActivity(DocumentDetailActivity.getIntent(this, it))
         }
 
-        viewModel.errorPopupEvent.observe(this) { message ->
+        viewModel.errorPopupEvent.eventObserve(this) { message ->
             showPopup(
                 if (message == UNKNOWN_ERROR) getString(R.string.msg_unknown_error)
                 else message
