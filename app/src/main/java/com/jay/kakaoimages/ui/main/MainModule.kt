@@ -1,4 +1,4 @@
-package com.jay.kakaoimages.ui
+package com.jay.kakaoimages.ui.main
 
 import androidx.lifecycle.ViewModel
 import com.jay.kakaoimages.di.ViewModelKey

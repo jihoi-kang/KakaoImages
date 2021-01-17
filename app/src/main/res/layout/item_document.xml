@@ -11,7 +11,7 @@
 
         <variable
             name="viewModel"
-            type="com.jay.kakaoimages.ui.MainViewModel" />
+            type="com.jay.kakaoimages.ui.main.MainViewModel" />
 
     </data>
 

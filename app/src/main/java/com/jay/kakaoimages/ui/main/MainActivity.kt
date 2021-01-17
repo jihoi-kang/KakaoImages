@@ -1,4 +1,4 @@
-package com.jay.kakaoimages.ui
+package com.jay.kakaoimages.ui.main
 
 import android.os.Bundle
 import com.jay.kakaoimages.R

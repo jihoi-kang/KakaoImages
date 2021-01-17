@@ -1,4 +1,4 @@
-package com.jay.kakaoimages.ui
+package com.jay.kakaoimages.ui.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

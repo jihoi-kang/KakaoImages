@@ -8,14 +8,14 @@
 
         <variable
             name="vm"
-            type="com.jay.kakaoimages.ui.MainViewModel" />
+            type="com.jay.kakaoimages.ui.main.MainViewModel" />
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.MainActivity">
+        tools:context=".ui.main.MainActivity">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/tb_toolbar"

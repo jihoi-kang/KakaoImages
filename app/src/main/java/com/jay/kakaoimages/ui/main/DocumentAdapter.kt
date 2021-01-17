@@ -1,4 +1,4 @@
-package com.jay.kakaoimages.ui
+package com.jay.kakaoimages.ui.main
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
