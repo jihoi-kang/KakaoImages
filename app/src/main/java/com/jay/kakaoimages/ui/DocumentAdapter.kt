@@ -8,7 +8,9 @@ import com.jay.kakaoimages.R
 import com.jay.kakaoimages.databinding.ItemDocumentBinding
 import com.jay.kakaoimages.model.Document
 
-class DocumentAdapter : RecyclerView.Adapter<DocumentViewHolder>() {
+class DocumentAdapter(
+    private val viewModel: MainViewModel,
+) : RecyclerView.Adapter<DocumentViewHolder>() {
 
     private val documentItems: MutableList<Document> = mutableListOf()
 
@@ -25,7 +27,7 @@ class DocumentAdapter : RecyclerView.Adapter<DocumentViewHolder>() {
             parent,
             false
         )
-        return DocumentViewHolder(binding)
+        return DocumentViewHolder(binding, viewModel)
     }
 
     override fun onBindViewHolder(holder: DocumentViewHolder, position: Int) {

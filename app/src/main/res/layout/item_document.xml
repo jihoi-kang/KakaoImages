@@ -8,11 +8,17 @@
         <variable
             name="item"
             type="com.jay.kakaoimages.model.Document" />
+
+        <variable
+            name="viewModel"
+            type="com.jay.kakaoimages.ui.MainViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:onClick="@{() -> viewModel.openDocumentDetail(item)}">
 
         <ImageView
             android:layout_width="0dp"

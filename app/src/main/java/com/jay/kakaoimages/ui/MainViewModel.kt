@@ -19,6 +19,9 @@ class MainViewModel @Inject constructor(
     private val _documentItems = MutableLiveData<MutableList<Document>>(mutableListOf())
     val documentItems: LiveData<MutableList<Document>> get() = _documentItems
 
+    private val _openDetailEvent = MutableLiveData<Document>()
+    val openDetailEvent: LiveData<Document> get() = _openDetailEvent
+
     private var page = 1
 
     fun load() {
@@ -63,6 +66,10 @@ class MainViewModel @Inject constructor(
             }, {
                 hideLoading()
             }).addTo(disposable)
+    }
+
+    fun openDocumentDetail(document: Document) {
+        _openDetailEvent.value = document
     }
 
 }

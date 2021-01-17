@@ -1,7 +1,10 @@
 package com.jay.kakaoimages.model
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class Document(
     @SerializedName("collection")
     val collection: String,
@@ -19,4 +22,4 @@ data class Document(
     val thumbnailUrl: String,
     @SerializedName("width")
     val width: Int
-)
+) : Parcelable

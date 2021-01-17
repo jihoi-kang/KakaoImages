@@ -5,6 +5,7 @@ import com.jay.kakaoimages.R
 import com.jay.kakaoimages.base.BaseActivity
 import com.jay.kakaoimages.databinding.ActivityMainBinding
 import com.jay.kakaoimages.ext.debounce
+import com.jay.kakaoimages.ui.detail.DocumentDetailActivity
 
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
     R.layout.activity_main,
@@ -12,7 +13,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
 ) {
 
     private val documentAdapter by lazy {
-        DocumentAdapter()
+        DocumentAdapter(viewModel)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,6 +34,10 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
 
         viewModel.query.debounce(1000L).observe(this) {
             viewModel.load()
+        }
+
+        viewModel.openDetailEvent.observe(this) {
+            startActivity(DocumentDetailActivity.getIntent(this, it))
         }
     }
 
