@@ -3,14 +3,15 @@ package com.jay.kakaoimages.util
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-class EndlessGridRecyclerViewScrollListener(
+abstract class EndlessGridRecyclerViewScrollListener(
     private val layoutManager: GridLayoutManager,
-    private val threshold: Int,
-    private val onLoad: () -> Unit,
+    private val threshold: Int = 3,
 ) : RecyclerView.OnScrollListener() {
 
     private var previousTotalItemCount = 0
     private var loading = true
+
+    abstract fun onLoadMore()
 
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         val totalItemCount = layoutManager.itemCount
@@ -31,7 +32,13 @@ class EndlessGridRecyclerViewScrollListener(
 
         if (!loading && lastVisibleItemPosition + threshold > totalItemCount) {
             loading = true
-            onLoad()
+            onLoadMore()
         }
     }
+
+    fun resetState() {
+        this.previousTotalItemCount = 0
+        this.loading = true
+    }
+
 }

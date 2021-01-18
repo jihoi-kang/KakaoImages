@@ -2,12 +2,14 @@ package com.jay.kakaoimages.ui.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.GridLayoutManager
 import com.jay.kakaoimages.R
 import com.jay.kakaoimages.api.UNKNOWN_ERROR
 import com.jay.kakaoimages.base.BaseActivity
 import com.jay.kakaoimages.databinding.ActivityMainBinding
 import com.jay.kakaoimages.ext.debounce
 import com.jay.kakaoimages.ui.detail.DocumentDetailActivity
+import com.jay.kakaoimages.util.EndlessGridRecyclerViewScrollListener
 import com.jay.kakaoimages.util.eventObserve
 
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
@@ -19,6 +21,16 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
         DocumentAdapter(viewModel)
     }
 
+    private val endlessRecyclerViewScrollListener by lazy {
+        object : EndlessGridRecyclerViewScrollListener(
+            binding.rvItemList.layoutManager as GridLayoutManager,
+        ) {
+            override fun onLoadMore() {
+                viewModel.loadMore()
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -28,6 +40,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
 
     private fun setupUi() {
         binding.rvItemList.adapter = documentAdapter
+        binding.rvItemList.addOnScrollListener(endlessRecyclerViewScrollListener)
     }
 
     private fun setupObserve() {
@@ -36,6 +49,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
         }
 
         viewModel.query.debounce(1000L).observe(this) {
+            endlessRecyclerViewScrollListener.resetState()
             viewModel.load()
         }
 

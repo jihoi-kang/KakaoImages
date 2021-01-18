@@ -87,8 +87,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/line"
             app:spanCount="3"
-            bind:onLoad="@{() -> vm.loadMore()}"
-            bind:threshold="@{3}"
             tools:listitem="@layout/item_document" />
 
         <ProgressBar
